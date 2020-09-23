@@ -5,26 +5,26 @@ import "./uniswapv2/interfaces/IUniswapV2Factory.sol";
 
 
 contract Migrator {
-    address public chef;
+    address public gardener;
     address public oldFactory;
     IUniswapV2Factory public factory;
     uint256 public notBeforeBlock;
     uint256 public desiredLiquidity = uint256(-1);
 
     constructor(
-        address _chef,
+        address _gardener,
         address _oldFactory,
         IUniswapV2Factory _factory,
         uint256 _notBeforeBlock
     ) public {
-        chef = _chef;
+        gardener = _gardener;
         oldFactory = _oldFactory;
         factory = _factory;
         notBeforeBlock = _notBeforeBlock;
     }
 
     function migrate(IUniswapV2Pair orig) public returns (IUniswapV2Pair) {
-        require(msg.sender == chef, "not from master chef");
+        require(msg.sender == gardener, "not from master gardener");
         require(block.number >= notBeforeBlock, "too early to migrate");
         require(orig.factory() == oldFactory, "not from old factory");
         address token0 = orig.token0();
